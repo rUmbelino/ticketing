@@ -13,8 +13,8 @@ const start = async () => {
 		throw new Error('NATS_URL must be defined');
 	}
 
-	if (!process.env.NATS_CLUSETER_ID) {
-		throw new Error('NATS_CLUSETER_ID must be defined');
+	if (!process.env.NATS_CLUSTER_ID) {
+		throw new Error('NATS_CLUSTER_ID must be defined');
 	}
 
 	if (!process.env.NATS_CLIENT_ID) {
@@ -26,7 +26,7 @@ const start = async () => {
 	}
 
 	try {
-		natsWrapper.connect('ticketing', 'alsdadas', 'http://nats-srv:4222');
+		await natsWrapper.connect(process.env.NATS_CLUSTER_ID, process.env.NATS_CLIENT_ID, process.env.NATS_URL);
 
 		natsWrapper.client.on('close', () => {
 			console.log('NATS connection closed!');
@@ -38,11 +38,12 @@ const start = async () => {
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('connected to MongoDB');
+
+		app.listen(3000, () => console.log('listening at port 3000'));
 	} catch (err) {
+		console.error('====== ERROR STARTING APP ======');
 		console.log(err);
 	}
-
-	app.listen(3000, () => console.log('listening at port 3000'));
 };
 
 start();
