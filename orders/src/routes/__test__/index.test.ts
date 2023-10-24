@@ -1,12 +1,13 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
-import { Order } from '../../models/order';
 import { Ticket } from '../../models/ticket';
 
 const buildTicket = async () => {
 	const ticket = Ticket.build({
 		title: 'concert',
 		price: 20,
+		id: new mongoose.Types.ObjectId().toHexString(),
 	});
 	await ticket.save();
 

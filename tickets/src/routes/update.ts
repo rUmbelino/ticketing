@@ -1,4 +1,4 @@
-import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@ru-tickets/common';
+import { BadRequestError, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@ru-tickets/common';
 import { Request, Response, Router } from 'express';
 import { Ticket } from '../models/ticket';
 import { body } from 'express-validator';
@@ -22,6 +22,10 @@ router.put(
 			throw new NotFoundError();
 		}
 
+		if (ticket.orderId) {
+			throw new BadRequestError('Cannot edit an reserved ticket');
+		}
+
 		if (ticket.userId !== req.currentUser!.id) {
 			throw new NotAuthorizedError();
 		}
@@ -36,7 +40,7 @@ router.put(
 		await new TicektUpdaterPublisher(natsWrapper.client).publish({
 			id: ticket.id,
 			title: ticket.title,
-			price: ticket.price.toString(),
+			price: ticket.price,
 			userId: ticket.userId,
 			version: ticket.version,
 		});
