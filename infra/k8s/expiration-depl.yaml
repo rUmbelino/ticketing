@@ -17,7 +17,7 @@ spec:
           image: rumbelino/expiration
           env:
             - name: REDIS_HOST
-              value: 'http://expiration-redis-srv:4222'
+              value: 'expiration-redis-srv'
             - name: NATS_URL
               value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
