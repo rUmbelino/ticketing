@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from 'axios';
+import { useState } from 'react';
 
 interface UseRequestArgs {
 	url: string;
-	method: "post" | "get" | "delete" | "put";
+	method: 'post' | 'get' | 'delete' | 'put';
 	body: any;
 	onSuccess?: (data: any) => void;
 }
@@ -11,10 +11,10 @@ interface UseRequestArgs {
 export default ({ url, method, body, onSuccess }: UseRequestArgs) => {
 	const [errors, setErrors] = useState(null);
 
-	const doRequest = async () => {
+	const doRequest = async (props = {}) => {
 		try {
 			setErrors(null);
-			const response = await axios[method](url, body);
+			const response = await axios[method](url, { ...body, ...props });
 
 			if (onSuccess) {
 				onSuccess(response.data);
@@ -23,7 +23,7 @@ export default ({ url, method, body, onSuccess }: UseRequestArgs) => {
 			return response.data;
 		} catch (err) {
 			setErrors(
-				<div className="alert alert-danger">
+				<div className="alert alert-danger my-3">
 					<h4>Ooops...</h4>
 					<ul className="my-0">
 						{err.response.data.errors.map(({ message }) => (
