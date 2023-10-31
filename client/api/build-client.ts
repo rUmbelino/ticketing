@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
 const buildClient = ({ req }) => {
-	if (typeof window === "undefined") {
+	if (typeof window === 'undefined') {
 		return axios.create({
-			baseURL: "http://ingress-nginx-controller.ingress-nginx/",
+			baseURL: 'http://rumbelino-ticketing.lat',
 			headers: req.headers,
 		});
 	} else {
 		return axios.create({
-			baseURL: "/",
+			baseURL: '/',
 		});
 	}
 };
