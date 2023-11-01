@@ -7,7 +7,7 @@ import { OrderCreatedListener } from './events/listeners/order-created-listener'
 import { OrderCancelledListener } from './events/listeners/order-cancelled-ticket';
 
 const start = async () => {
-	console.log('starting up the application....');
+	console.log('starting up the application.....');
 	if (!process.env.MONGO_URI) {
 		throw new Error('MONGO_URI must be defined');
 	}
